@@ -50,3 +50,9 @@ def index():
 @app.route("/hobbies")
 def hobbies():
     return render_template('hobbies.html', url=os.getenv("URL"))
+
+@app.route('/timeline')
+def timeline():
+    timeline_posts = [model_to_dict(p) for p in TimelinePost.select().order_by(TimelinePost.
+    created_at.desc())]
+    return render_template('timeline.html', title="Timeline", posts= timeline_posts)

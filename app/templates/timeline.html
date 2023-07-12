@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+ <head>
+     <meta charset="UTF-8">
+     <title>{{title}}</title>
+     <link rel="stylesheet" type="text/css" href="../static/styles/main.css">
+     <script src="http://code.jquery.com/jquery-latest.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ </head>
+ <body>
+     <div class="container">
+         <div class="row"> 
+             <div class="col-md-12">
+                 <div class="text-center">
+                     <h2 style="margin:20px; font-size: 35px !important; font-weight: bold;" class="first-headline">New Timeline Post</h2>
+                 </div>
+             </div>
+         </div>
+
+         <form id = "myform">
+             <div class="form-group">
+               <label for="name">Name</label>
+               <input type="text" class="form-control" name = "name" id = "name" placeholder="Name">
+             </div>
+             <div class="form-group">
+               <label for="email">Email</label>
+               <input type="text" class="form-control" name = "email" id = "email" placeholder="Email">
+             </div>
+             <div class="form-group">
+                 <label for="content">Content</label>
+                 <input type="text" class="form-control" name = "content" id = "content" placeholder="Content">
+               </div>
+               <br/>
+             <button id ="submit" type="submit" class="btn btn-primary">Submit</button>
+         </form>
+     </div>
+
+     <div class = "container">
+         <div class="row"> 
+             <div class="col-md-12">
+                 <div class="text-center">
+                     <h2 style="margin:20px; font-size: 35px !important; font-weight: bold;" class="first-headline">List of Timeline Posts</h2>
+                 </div>
+             </div>
+         </div>
+
+         {% for post in posts %} 
+         <p>Id: {{post["id"]}}</p>
+         <p>Name: {{post["name"]}}</p>
+         <p>Email: {{post["email"]}}</p>
+         <p>Content: {{post["content"]}}</p>
+         <br>
+         {% endfor %}
+     </div>
+
+     <script>
+         /* Sending the formData object as payload using Fetch */
+         const form = document.getElementById('myform');
+
+         form.addEventListener('submit', function(e) {
+
+             swal({
+                 title: "Successfully submitted",
+                 icon: "success",
+                 button: "Yes!!",
+             });
+
+             // Prevent default behavior:
+             e.preventDefault();
+             // Create payload as new FormData object:
+             const payload = new FormData(form);
+             // Post the payload using Fetch:
+             fetch('/api/timeline_post', {
+             method: 'POST',
+             body: payload,
+             })
+             .then(res => res.json())
+             .then(data => console.log(data))
+             .finally(() => location.reload())
+
+             $("#name").val("");
+             $("#email").val("");
+             $("#content").val("");
+         })
+     </script>
+
+
+ </body>
+ </html>
