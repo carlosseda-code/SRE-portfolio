@@ -1,5 +1,3 @@
-tmux kill-session -t my_session
-
 cd SRE-portfolio
 
 git fetch && git reset origin/main --hard
@@ -10,4 +8,6 @@ pip install --upgrade pip
 
 pip install -r requirements.txt
 
-tmux new-session -d -s my_session 'flask run --host=0.0.0.0'
+systemctl daemon-reload
+
+systemctl restart myportfolio
