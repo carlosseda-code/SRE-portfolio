@@ -1,13 +1,9 @@
+#!/bin/bash
+
 cd SRE-portfolio
 
 git fetch && git reset origin/main --hard
 
-source python3-virtualenv/bin/activate
+docker compose -f docker-compose.prod.yml down
 
-pip install --upgrade pip
-
-pip install -r requirements.txt
-
-systemctl daemon-reload
-
-systemctl restart myportfolio
+docker compose -f docker-compose.prod.yml up -d --build
